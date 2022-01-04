@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Tutorial de VueJS 2</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <main>
+        <div id="divGeneral"> <!--Aquí tiene que ser id sí o sí, sino el JS no funciona-->
+            <div class="divNota">
+                <!--Introducción-->
+                <h1 v-text="titulo"></h1>
+
+                <!--Two-way Bending-->
+                Introduce tu nombre: <br>
+                <input type="text" placeholder="Nombre" v-model="nombre" />
+                <b>Bienvenid@, </b>{{nombre}} <br>
+                <br>
+
+                <!--If-->
+                Introduce tu nota: <br>
+                <input type="number" placeholder="Nota" max="10" min="1" v-model="nota" />
+                <b v-if="nota>0 && nota<5">Has suspendido</b>
+                <b v-else-if="nota>=5 && nota<=10">Enhorabuena! Has aprobado!</b>
+                <b v-else-if="nota<0 || nota>10">Introduce una nota entre 1 y 10</b>
+                <b v-else></b>
+
+                <!--Propiedades Computadas-->
+                <h2>{{mostrarNombreNotaFecha}}</h2>
+            </div>
+            <div class="divPelis">
+                <!--Eventos-->
+                <h3>Mis películas favoritas ordenadas alfabéticamente son:</h3>
+                <ol>
+                    <li v-for="(pelicula, index) in mostrarPeliculasOrdenadas">{{pelicula}}<button
+                            @click="borrarPelicula(index)">Borrar película</button></li>
+                </ol>
+
+                <form @submit.prevent="crearPelicula()">
+                    <!--El prevent es para que al darle al botón no actualice la página porque se borra la nueva peli añadida-->
+                    <input type="text" v-model="peliculaNueva" />
+                    <input type="submit" value="Crear película" />
+                </form>
+
+                <!--Binding de clases-->
+                <h3>Dale click a una peli para darle like:</h3>
+                <ol>
+                    <li v-for="(pelicula, index) in mostrarPeliculasOrdenadas" @click="marcar(index)"
+                        :class="{like: index == like}">{{pelicula}}</li>
+                </ol>
+            </div>
+            <div class="divFrutas">
+                <!--For-->
+                <h3>Aquí tienes un listado de frutas:</h3>
+                <ul>
+                    <li v-for="(fruta, index) in frutas">{{index}}. {{fruta.nombre}} - {{fruta.temporada}}:
+                        {{fruta.precio}}€
+                    </li>
+                </ul>
+
+                <h3>Información sobre la mandarina:</h3>
+                <ul>
+                    <li v-for="(value, key, index) in mandarina">
+                        {{index}}. {{key}} - {{value}}
+                    </li>
+                </ul>
+
+                <!--Filtros-->
+                <h3>Busca una fruta:</h3>
+                <input type="search" v-model="buscar" placeholder="Buscar fruta">
+                <ul>
+                    <li v-for="(fruta, index) in buscarFruta">{{fruta.nombre | mayusculas}}</li>
+                </ul>
+
+                <!--Componentes-->
+                <frutas :objeto='mandarina' inline-template>
+                    <div>
+                        <h3>Componente frutas</h3>
+                        <p>{{objeto.nombre}}</p>
+                    </div>
+                </frutas>
+            </div>
+            <div class="divPadreHijo">
+                <button @click="elegidoPH = 'padre'">Mostrar componente padre</button>
+                <button @click="elegidoPH = 'hijo'">Mostrar componente hijo</button>
+                <button @click="elegidoPH = 'quitarPadre'">Quitar padre</button>
+                <!--Muestra el componente elegido-->
+                <component :is="elegidoPH"></component>
+            </div>
+            <div class="divArticulos">
+                <button @click="elegidoA = 'cargarArticulos'">Cargar articulos</button>
+                <button @click="elegidoA = 'quitarArticulos'">Quitar articulos</button>
+                <!--Muestra el componente elegido-->
+                <component :is="elegidoA"></component>
+            </div>
+        </div>
+    </main>
+
+    <!--Vue-->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <!--Axios-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!--JavaScript-->
+    <script src="js/script.js"></script>
+</body>
+
+</html>

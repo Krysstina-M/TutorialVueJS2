@@ -1,0 +1,19 @@
+.divNota, .divPelis, .divFrutas, .divPadreHijo, .divArticulos {
+    margin: auto;
+    border: 1px solid black;
+    width: 30%;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.like {
+    background: greenyellow;
+    width: 300px;
+    padding: 2px;
+}
+
+.hijo {
+    background: yellow;
+    width: 300px;
+    padding: 2px;
+}
